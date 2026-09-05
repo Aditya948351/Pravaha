@@ -1,0 +1,32 @@
+# Node dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Production build artifacts
+dist/
+dist-ssr/
+*.local
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Editor & OS files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# Temporary text logs & scratch files
+*.log
+blueprint_full.txt
+dossier_full.txt
+blueprint_summary.txt
+dossier_summary.txt
