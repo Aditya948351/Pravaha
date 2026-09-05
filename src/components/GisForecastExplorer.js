@@ -143,24 +143,44 @@ export function renderGisForecastExplorer() {
 
             <!-- Pollutant Sub-Index Breakdown Grid -->
             <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 8px;">
-              Criteria Pollutants (H+${currentHorizonHour})
+              Criteria Pollutants vs NAAQS Safe Limits (H+${currentHorizonHour})
             </div>
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px;">
-              <div style="background: rgba(255,255,255,0.02); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                <div style="font-size: 0.72rem; color: var(--text-muted);">PM2.5 (Fine Particulate)</div>
-                <div class="font-mono" style="font-size: 1.15rem; font-weight: 700; color: #f87171;" id="inspector-pm25">${selectedStation.pollutants.pm25} µg/m³</div>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+              <!-- PM2.5 Bar -->
+              <div style="background: rgba(255,255,255,0.02); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
+                  <span style="color: #f87171; font-weight: 600;">PM2.5: <span class="font-mono" id="inspector-pm25">${selectedStation.pollutants.pm25} µg/m³</span></span>
+                  <span class="font-mono" style="font-size: 0.75rem; color: #fb7185;" id="naaqs-pm25-ratio">${(selectedStation.pollutants.pm25 / 60).toFixed(1)}x Safe Limit (60)</span>
+                </div>
+                <div class="naaqs-meter-bar">
+                  <div class="naaqs-fill" id="naaqs-pm25-bar" style="width: ${Math.min(100, (selectedStation.pollutants.pm25 / 400) * 100)}%; background: #ef4444;"></div>
+                </div>
               </div>
-              <div style="background: rgba(255,255,255,0.02); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                <div style="font-size: 0.72rem; color: var(--text-muted);">PM10 (Coarse Particulate)</div>
-                <div class="font-mono" style="font-size: 1.15rem; font-weight: 700; color: #fbbf24;" id="inspector-pm10">${selectedStation.pollutants.pm10} µg/m³</div>
+
+              <!-- PM10 Bar -->
+              <div style="background: rgba(255,255,255,0.02); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 4px;">
+                  <span style="color: #fbbf24; font-weight: 600;">PM10: <span class="font-mono" id="inspector-pm10">${selectedStation.pollutants.pm10} µg/m³</span></span>
+                  <span class="font-mono" style="font-size: 0.75rem; color: #fbbf24;" id="naaqs-pm10-ratio">${(selectedStation.pollutants.pm10 / 100).toFixed(1)}x Safe Limit (100)</span>
+                </div>
+                <div class="naaqs-meter-bar">
+                  <div class="naaqs-fill" id="naaqs-pm10-bar" style="width: ${Math.min(100, (selectedStation.pollutants.pm10 / 500) * 100)}%; background: #f59e0b;"></div>
+                </div>
               </div>
-              <div style="background: rgba(255,255,255,0.02); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                <div style="font-size: 0.72rem; color: var(--text-muted);">NO2 (Nitrogen Dioxide)</div>
-                <div class="font-mono" style="font-size: 1.15rem; font-weight: 700; color: #38bdf8;" id="inspector-no2">${selectedStation.pollutants.no2} µg/m³</div>
-              </div>
-              <div style="background: rgba(255,255,255,0.02); padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border-subtle);">
-                <div style="font-size: 0.72rem; color: var(--text-muted);">O3 (Photochemical Ozone)</div>
-                <div class="font-mono" style="font-size: 1.15rem; font-weight: 700; color: #34d399;" id="inspector-o3">${selectedStation.pollutants.o3} µg/m³</div>
+
+              <!-- NO2 & O3 Dual Metric Grid -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div style="background: rgba(255,255,255,0.02); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                  <div style="font-size: 0.7rem; color: var(--text-muted);">NO2 (Vehicular)</div>
+                  <div class="font-mono" style="font-size: 1.05rem; font-weight: 700; color: #38bdf8;" id="inspector-no2">${selectedStation.pollutants.no2} µg/m³</div>
+                  <div style="font-size: 0.68rem; color: #94a3b8;">Limit: 80 µg/m³</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.02); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-subtle);">
+                  <div style="font-size: 0.7rem; color: var(--text-muted);">O3 (Photochemical)</div>
+                  <div class="font-mono" style="font-size: 1.05rem; font-weight: 700; color: #34d399;" id="inspector-o3">${selectedStation.pollutants.o3} µg/m³</div>
+                  <div style="font-size: 0.68rem; color: #94a3b8;">Limit: 100 µg/m³</div>
+                </div>
               </div>
             </div>
 
@@ -365,11 +385,24 @@ function selectStation(stationId) {
   const typeEl = document.getElementById('inspector-type');
   if (typeEl) typeEl.textContent = st.stationType;
 
+  const pm25Current = Math.round(st.pollutants.pm25 * ratio);
+  const pm10Current = Math.round(st.pollutants.pm10 * ratio);
+
   const pm25El = document.getElementById('inspector-pm25');
-  if (pm25El) pm25El.textContent = `${Math.round(st.pollutants.pm25 * ratio)} µg/m³`;
+  if (pm25El) pm25El.textContent = `${pm25Current} µg/m³`;
+
+  const naaqsPm25Ratio = document.getElementById('naaqs-pm25-ratio');
+  if (naaqsPm25Ratio) naaqsPm25Ratio.textContent = `${(pm25Current / 60).toFixed(1)}x Safe Limit (60)`;
+  const naaqsPm25Bar = document.getElementById('naaqs-pm25-bar');
+  if (naaqsPm25Bar) naaqsPm25Bar.style.width = `${Math.min(100, (pm25Current / 400) * 100)}%`;
 
   const pm10El = document.getElementById('inspector-pm10');
-  if (pm10El) pm10El.textContent = `${Math.round(st.pollutants.pm10 * ratio)} µg/m³`;
+  if (pm10El) pm10El.textContent = `${pm10Current} µg/m³`;
+
+  const naaqsPm10Ratio = document.getElementById('naaqs-pm10-ratio');
+  if (naaqsPm10Ratio) naaqsPm10Ratio.textContent = `${(pm10Current / 100).toFixed(1)}x Safe Limit (100)`;
+  const naaqsPm10Bar = document.getElementById('naaqs-pm10-bar');
+  if (naaqsPm10Bar) naaqsPm10Bar.style.width = `${Math.min(100, (pm10Current / 500) * 100)}%`;
 
   const no2El = document.getElementById('inspector-no2');
   if (no2El) no2El.textContent = `${Math.round(st.pollutants.no2 * (0.85 + Math.random() * 0.3))} µg/m³`;

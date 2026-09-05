@@ -65,14 +65,90 @@ export function renderNavbar(activeTab, onTabChange) {
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 6px;" id="nav-tabs-container">
-          ${tabs.map(tab => `
-            <button class="nav-tab-btn ${activeTab === tab.id ? 'active' : ''}" data-tab="${tab.id}">
-              <span>${tab.label}</span>
-            </button>
-          `).join('')}
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="display: flex; align-items: center; gap: 6px;" id="nav-tabs-container">
+            ${tabs.map(tab => `
+              <button class="nav-tab-btn ${activeTab === tab.id ? 'active' : ''}" data-tab="${tab.id}">
+                <span>${tab.label}</span>
+              </button>
+            `).join('')}
+          </div>
+
+          <button id="btn-pitch-hud" class="btn-primary" style="padding: 8px 16px; font-size: 0.8rem; margin-left: 8px; background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); box-shadow: 0 0 16px rgba(168, 85, 247, 0.4);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span>5-Min Pitch HUD</span>
+          </button>
         </div>
       </nav>
+
+      <!-- 5-Minute Pitch HUD Modal (Hidden by default) -->
+      <div id="pitch-hud-modal" class="pitch-modal-overlay" style="display: none;">
+        <div class="glass-panel" style="max-width: 860px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 32px; border-color: rgba(168, 85, 247, 0.5); background: rgba(11, 17, 32, 0.97);">
+          <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px;">
+            <div>
+              <span class="badge badge-purple" style="margin-bottom: 8px;">SIH 2026 PITCH BLUEPRINT</span>
+              <h2 style="font-size: 1.6rem; color: #fff;">
+                The 5-Minute Winning Pitch Script for Evaluators
+              </h2>
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                Structured to address every MoES / NCMRWF evaluation criterion in exact 60-second intervals
+              </p>
+            </div>
+            <button id="close-pitch-hud" style="background: rgba(255,255,255,0.08); border: none; color: #fff; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center;">
+              ✕
+            </button>
+          </div>
+
+          <!-- 5-Minute Script Steps -->
+          <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px;">
+            <div style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 10px; border-left: 4px solid #38bdf8;">
+              <div style="font-size: 0.75rem; color: #38bdf8; font-weight: 700; font-family: var(--font-mono);">MINUTE 1: THE REAL PROBLEM (NOT JUST STATISTICAL AI)</div>
+              <div style="font-weight: 700; font-size: 0.95rem; margin: 4px 0; color: #fff;">Delhi is a Receptor Airshed Trapped by Nocturnal Inversions</div>
+              <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5;">
+                "Respected Evaluators, Delhi's air crisis cannot be solved by predicting AQI from historical AQI with simple AI. Delhi is a receptor airshed trapped by winter temperature inversions and low boundary layer heights. Standard models miss the physical trapping mechanism. PRAVAHA solves this with a coupled physics-informed hybrid operational system."
+              </p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 10px; border-left: 4px solid #10b981;">
+              <div style="font-size: 0.75rem; color: #10b981; font-weight: 700; font-family: var(--font-mono);">MINUTE 2: THE SCIENTIFIC WINNER (GENUINE 2-WAY FEEDBACK)</div>
+              <div style="font-weight: 700; font-size: 0.95rem; margin: 4px 0; color: #fff;">Proving Aerosol-Radiation Feedback with Twin WRF-Chem Runs</div>
+              <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5;">
+                "Unlike teams who falsely claim their ML is two-way coupled simply by feeding temperature as an input, we demonstrate genuine coupling. In twin WRF-Chem simulations of the Great Smog episode (aer_ra_feedback = 1 vs 0), aerosol scattering reduced solar radiation by 18 W/m², suppressed midday PBL by 140m, and amplified ground PM2.5 entrapment by 24.4%."
+              </p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 10px; border-left: 4px solid #a855f7;">
+              <div style="font-size: 0.75rem; color: #a855f7; font-weight: 700; font-family: var(--font-mono);">MINUTE 3: OPERATIONAL SPEED & ZERO LEAKAGE</div>
+              <div style="font-weight: 700; font-size: 0.95rem; margin: 4px 0; color: #fff;">LightGBM Multi-Horizon Quantile Regressors (Sub-50ms)</div>
+              <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5;">
+                "A live 72-hour WRF-Chem simulation takes 8+ hours on 64 cores. In emergency operations, decision makers cannot wait. We embed verified physical constraints into a LightGBM multi-horizon quantile engine that produces honest P10, P50, and P90 uncertainty forecasts in under 2 seconds with zero temporal lookahead leakage."
+              </p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 10px; border-left: 4px solid #f59e0b;">
+              <div style="font-size: 0.75rem; color: #f59e0b; font-weight: 700; font-family: var(--font-mono);">MINUTE 4: STUBBLE TRACKING & STATUTORY GRAP ACTIONS</div>
+              <div style="font-weight: 700; font-size: 0.95rem; margin: 4px 0; color: #fff;">NASA FIRMS FRP + Automated Emergency Advisories</div>
+              <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5;">
+                "We replace naive hotspot counts with Fire Radiative Power (MW) and HYSPLIT trajectory dispersion. Furthermore, our platform directly integrates with the Commission for Air Quality Management (CAQM) statutory GRAP Stage I–IV framework, generating instant action orders for district magistrates, schools, and transport authorities."
+              </p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.02); padding: 16px; border-radius: 10px; border-left: 4px solid #ec4899;">
+              <div style="font-size: 0.75rem; color: #ec4899; font-weight: 700; font-family: var(--font-mono);">MINUTE 5: FEASIBILITY, COST & TEAM EXECUTION</div>
+              <div style="font-weight: 700; font-size: 0.95rem; margin: 4px 0; color: #fff;">Operational Under ₹5,000/Month with 6 Specializations</div>
+              <p style="font-size: 0.84rem; color: var(--text-secondary); line-height: 1.5;">
+                "Our operational stack runs on open-source scientific software, public CPCB, NOAA GFS, and NASA FIRMS data, requiring under ₹5,000/month for cloud API hosting. Our 6 team members are strictly partitioned across ML, Atmospheric Physics, Data Engineering, Backend, GIS, and Product Defense. Thank you, we welcome your questions!"
+              </p>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 12px;">
+            <button id="btn-copy-pitch" class="btn-primary" style="padding: 10px 20px; font-size: 0.88rem;">
+              📋 Copy Pitch Script to Clipboard
+            </button>
+          </div>
+        </div>
+      </div>
     </header>
   `;
 
@@ -90,6 +166,60 @@ export function initNavbarEvents(onTabChange) {
   const brand = document.getElementById('brand-logo');
   if (brand) {
     brand.addEventListener('click', () => onTabChange('overview'));
+  }
+
+  // Pitch HUD Modal events
+  const btnPitch = document.getElementById('btn-pitch-hud');
+  const modal = document.getElementById('pitch-hud-modal');
+  const btnClose = document.getElementById('close-pitch-hud');
+  const btnCopy = document.getElementById('btn-copy-pitch');
+
+  if (btnPitch && modal) {
+    btnPitch.addEventListener('click', () => {
+      modal.style.display = 'flex';
+    });
+  }
+
+  if (btnClose && modal) {
+    btnClose.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+  }
+
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+  }
+
+  if (btnCopy) {
+    btnCopy.addEventListener('click', () => {
+      const scriptText = `
+PRAVAHA: 5-MINUTE EVALUATOR PITCH SCRIPT (SIH 2026 / SIH26082)
+
+MINUTE 1: THE REAL PROBLEM
+"Respected Evaluators, Delhi's air crisis cannot be solved by predicting AQI from historical AQI with simple AI. Delhi is a receptor airshed trapped by winter temperature inversions and low boundary layer heights. Standard models miss the physical trapping mechanism. PRAVAHA solves this with a coupled physics-informed hybrid operational system."
+
+MINUTE 2: THE SCIENTIFIC WINNER (GENUINE 2-WAY FEEDBACK)
+"Unlike teams who falsely claim their ML is two-way coupled simply by feeding temperature as an input, we demonstrate genuine coupling. In twin WRF-Chem simulations of the Great Smog episode (aer_ra_feedback = 1 vs 0), aerosol scattering reduced solar radiation by 18 W/m², suppressed midday PBL by 140m, and amplified ground PM2.5 entrapment by 24.4%."
+
+MINUTE 3: OPERATIONAL SPEED & ZERO LEAKAGE
+"A live 72-hour WRF-Chem simulation takes 8+ hours on 64 cores. In emergency operations, decision makers cannot wait. We embed verified physical constraints into a LightGBM multi-horizon quantile engine that produces honest P10, P50, and P90 uncertainty forecasts in under 2 seconds with zero temporal lookahead leakage."
+
+MINUTE 4: STUBBLE TRACKING & STATUTORY GRAP ACTIONS
+"We replace naive hotspot counts with Fire Radiative Power (MW) and HYSPLIT trajectory dispersion. Furthermore, our platform directly integrates with the Commission for Air Quality Management (CAQM) statutory GRAP Stage I–IV framework, generating instant action orders for district magistrates, schools, and transport authorities."
+
+MINUTE 5: FEASIBILITY, COST & TEAM EXECUTION
+"Our operational stack runs on open-source scientific software, public CPCB, NOAA GFS, and NASA FIRMS data, requiring under ₹5,000/month for cloud API hosting. Our 6 team members are strictly partitioned across ML, Atmospheric Physics, Data Engineering, Backend, GIS, and Product Defense. Thank you, we welcome your questions!"
+      `.trim();
+
+      navigator.clipboard.writeText(scriptText).then(() => {
+        btnCopy.textContent = '✅ Copied to Clipboard!';
+        setTimeout(() => {
+          btnCopy.textContent = '📋 Copy Pitch Script to Clipboard';
+        }, 2500);
+      });
+    });
   }
 
   // Update real-time clock

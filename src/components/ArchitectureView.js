@@ -23,11 +23,95 @@ export function renderArchitectureView() {
         </p>
       </div>
 
+      <!-- Graphical SVG Pipeline Flowchart -->
+      <div class="glass-panel" style="padding: 26px; border-color: rgba(168, 85, 247, 0.3);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
+          <h3 style="font-size: 1.25rem; display: flex; align-items: center; gap: 8px;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #c084fc;"></span>
+            Visual Data Flow & Thermodynamic Processing Graph
+          </h3>
+          <span class="badge badge-purple">SUB-50MS PIPELINE EXECUTION</span>
+        </div>
+
+        <div style="overflow-x: auto; padding: 10px 0;">
+          <svg viewBox="0 0 920 120" style="min-width: 820px; width: 100%; height: auto; overflow: visible;">
+            <defs>
+              <linearGradient id="flowGrad1" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#0284c7"/>
+                <stop offset="100%" stop-color="#06b6d4"/>
+              </linearGradient>
+              <linearGradient id="flowGrad2" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#06b6d4"/>
+                <stop offset="100%" stop-color="#10b981"/>
+              </linearGradient>
+              <linearGradient id="flowGrad3" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#10b981"/>
+                <stop offset="100%" stop-color="#a855f7"/>
+              </linearGradient>
+              <linearGradient id="flowGrad4" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#a855f7"/>
+                <stop offset="100%" stop-color="#f59e0b"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Connector Lines with Animated Pulse Arrows -->
+            <line x1="165" y1="60" x2="220" y2="60" stroke="url(#flowGrad1)" stroke-width="3" stroke-dasharray="6,4"/>
+            <polygon points="220,56 228,60 220,64" fill="#06b6d4"/>
+
+            <line x1="385" y1="60" x2="440" y2="60" stroke="url(#flowGrad2)" stroke-width="3" stroke-dasharray="6,4"/>
+            <polygon points="440,56 448,60 440,64" fill="#10b981"/>
+
+            <line x1="605" y1="60" x2="660" y2="60" stroke="url(#flowGrad3)" stroke-width="3" stroke-dasharray="6,4"/>
+            <polygon points="660,56 668,60 660,64" fill="#a855f7"/>
+
+            <line x1="825" y1="60" x2="880" y2="60" stroke="url(#flowGrad4)" stroke-width="3" stroke-dasharray="6,4"/>
+            <polygon points="880,56 888,60 880,64" fill="#f59e0b"/>
+
+            <!-- Node 1: Raw Ingestion -->
+            <g class="diagram-node">
+              <rect x="10" y="20" width="155" height="80" rx="10" fill="#0f172a" stroke="#0284c7" stroke-width="1.8"/>
+              <text x="87" y="44" fill="#38bdf8" font-size="11" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">DATA INGESTION</text>
+              <text x="87" y="62" fill="#fff" font-size="12" font-family="Outfit" font-weight="600" text-anchor="middle">42 CAAQMS + GFS</text>
+              <text x="87" y="78" fill="#94a3b8" font-size="9" font-family="Inter" text-anchor="middle">FIRMS FRP • CAMS</text>
+            </g>
+
+            <!-- Node 2: Automated QC -->
+            <g class="diagram-node">
+              <rect x="230" y="20" width="155" height="80" rx="10" fill="#0f172a" stroke="#06b6d4" stroke-width="1.8"/>
+              <text x="307" y="44" fill="#2dd4bf" font-size="11" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">AUTOMATED QC</text>
+              <text x="307" y="62" fill="#fff" font-size="12" font-family="Outfit" font-weight="600" text-anchor="middle">Outlier & Clock Sync</text>
+              <text x="307" y="78" fill="#94a3b8" font-size="9" font-family="Inter" text-anchor="middle">UTC-IST • Provenance</text>
+            </g>
+
+            <!-- Node 3: Physics Feature Store -->
+            <g class="diagram-node">
+              <rect x="450" y="20" width="155" height="80" rx="10" fill="#0f172a" stroke="#10b981" stroke-width="1.8"/>
+              <text x="527" y="44" fill="#34d399" font-size="11" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">PHYSICS FEATURES</text>
+              <text x="527" y="62" fill="#fff" font-size="12" font-family="Outfit" font-weight="600" text-anchor="middle">Ventilation VI & ΔT</text>
+              <text x="527" y="78" fill="#94a3b8" font-size="9" font-family="Inter" text-anchor="middle">No-Leak Backward Lags</text>
+            </g>
+
+            <!-- Node 4: LightGBM Forecaster -->
+            <g class="diagram-node">
+              <rect x="670" y="20" width="155" height="80" rx="10" fill="#0f172a" stroke="#a855f7" stroke-width="1.8"/>
+              <text x="747" y="44" fill="#c084fc" font-size="11" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">HYBRID FORECASTER</text>
+              <text x="747" y="62" fill="#fff" font-size="12" font-family="Outfit" font-weight="600" text-anchor="middle">72h Quantile Loss</text>
+              <text x="747" y="78" fill="#94a3b8" font-size="9" font-family="Inter" text-anchor="middle">P10/P50/P90 Conformal</text>
+            </g>
+
+            <!-- Node 5: CAQM GRAP -->
+            <g class="diagram-node">
+              <rect x="890" y="20" width="25" height="80" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.8"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
       <!-- 4-Tier Pipeline Architecture Visual -->
       <div class="glass-panel" style="padding: 30px;">
         <h3 style="font-size: 1.3rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
           <span style="width: 8px; height: 8px; border-radius: 50%; background: #a855f7;"></span>
-          Four-Tier Operational Pipeline
+          Four-Tier Operational Pipeline Details
         </h3>
 
         <div style="display: flex; flex-direction: column; gap: 16px;">

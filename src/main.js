@@ -11,6 +11,7 @@ import { renderPhysicsLab, initPhysicsLab } from './components/PhysicsLab.js';
 import { renderStubbleGrapHub, initStubbleGrapHub } from './components/StubbleGrapHub.js';
 import { renderTeamMatrix, initTeamMatrix } from './components/TeamMatrix.js';
 import { renderJudgeDefense, initJudgeDefense } from './components/JudgeDefense.js';
+import { initAtmosphericCanvas } from './components/AtmosphericStreamlines.js';
 
 let activeTab = 'overview';
 
@@ -100,4 +101,7 @@ function handleTabChange(newTab) {
 // Initial mount on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   renderApp();
+  setTimeout(() => {
+    initAtmosphericCanvas('app');
+  }, 100);
 });
